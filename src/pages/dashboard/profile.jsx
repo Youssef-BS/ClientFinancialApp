@@ -12,6 +12,7 @@ import { PencilIcon } from "@heroicons/react/24/solid";
 import { ProfileInfoCard } from "@/widgets/cards";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { getUser } from "@/api/users";
+import { Link } from "react-router-dom"; // Importez Link pour la redirection
 
 export function Profile() {
   const { getCurrentUser } = useContext(AuthContext);
@@ -36,17 +37,14 @@ export function Profile() {
 
   useEffect(() => {
     if (userData?.image?.data) {
-      // Convert image data from Buffer to Base64 string
-      const buffer = new Uint8Array(userData.image.data.data); // Access the data array
+      const buffer = new Uint8Array(userData.image.data.data);
       const base64String = `data:${userData.image.contentType};base64,${btoa(
         String.fromCharCode(...buffer)
       )}`;
       setImageSrc(base64String);
-
-      // Log the imageSrc to the console
-      console.log(base64String); // Log the Base64 string for testing
+      console.log(base64String);
     }
-  }, [userData]); // Update when userData changes
+  }, [userData]);
 
   if (!userData) {
     return <Typography>Loading user data...</Typography>;
@@ -62,7 +60,7 @@ export function Profile() {
           <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
             <div className="flex items-center gap-6">
               <Avatar
-                src={imageSrc} 
+                src={imageSrc}
                 alt="User Avatar"
                 size="xl"
                 variant="rounded"
@@ -95,9 +93,12 @@ export function Profile() {
               }}
               action={
                 <Tooltip content="Edit Profile">
-                  <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                  <Link to="/dashboard/edit-profile">
+                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                  </Link>
                 </Tooltip>
               }
+              
             />
           </div>
 
@@ -105,7 +106,6 @@ export function Profile() {
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Projects
             </Typography>
-            
             <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
               <Card color="transparent" shadow={false}>
                 <CardBody className="py-0 px-1">
