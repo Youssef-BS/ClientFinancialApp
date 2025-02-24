@@ -293,7 +293,40 @@ const LoginSignupForm = () => {
   const handleForgotPassword = () => {
     alert("Please check your email for the password reset link");
   };
-
+  const handleFaceLogin = async () => {
+    try {
+      const response = await axios.get('http://localhost:5010/get_person_data');
+      
+      if (response.status === 200 && response.data) {
+        const { firstName, lastName, email } = response.data;
+  
+        // Simuler une connexion réussie
+        dispatch({ 
+          type: "LOGIN_SUCCESS", 
+          payload: { 
+            user: { firstName, lastName, email }, 
+            token: "fake-token-for-face-login" 
+          } 
+        });
+  
+        // Redirection vers le tableau de bord
+        navigate("/dashboard/home");
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Face recognition failed!',
+        });
+      }
+    } catch (error) {
+      console.error('Face login error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred during face recognition!',
+      });
+    }
+  };
   return (
     <div className="login-signup">
       <div className={`container ${isSignUp ? "active" : ""}`}>
@@ -584,10 +617,21 @@ const LoginSignupForm = () => {
                   Do you forget your password?
                 </Link>
               </div>
+              
               <button type="submit" className="btn" disabled={loading} style={{ backgroundColor: "#7494ec", width: "50%" }}>
                 {loading ? "Logging in..." : "Login"}
               </button>
+              
               {error && <p className="error">{error}</p>}
+              <button 
+    type="button" 
+    className="btn" 
+    onClick={handleFaceLogin}
+    style={{ backgroundColor: "#7494ec", width: "50%" }}
+  >
+    Login with Face
+  </button>
+
             </form>
           </div>
         )}
@@ -602,6 +646,7 @@ const LoginSignupForm = () => {
             <h1>hey Back!</h1>
             <p>Already have an account?</p>
             <button className="btn login-btn" onClick={() => setIsSignUp(false)}>Login</button>
+            
           </div>
         </div>
       </div>

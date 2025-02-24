@@ -1,10 +1,8 @@
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
-import { useState, useEffect, useContext } from "react";
-
+import { useState } from "react";
 
 const schema = yup.object().shape({
   CIN: yup.string().required("CIN est requis"),
@@ -12,11 +10,10 @@ const schema = yup.object().shape({
   lastName: yup.string().required("Nom est requis"),
   gender: yup.string().oneOf(["male", "female"], "Genre invalide").required("Genre est requis"),
   birthDate: yup.date().required("Date de naissance requise"),
-  phone: yup.string().matches(/^[0-9]{10}$/, "Numéro de téléphone invalide").required("Téléphone requis"),
   email: yup.string().email("Email invalide").required("Email requis"),
   password: yup.string().min(6, "Mot de passe trop court").required("Mot de passe requis"),
   confirmPassword: yup.string().oneOf([yup.ref("password"), null], "Les mots de passe ne correspondent pas").required("Confirmation requise"),
-  role: yup.string().oneOf(["accountant", "financial manager", "auditeur", "manager controller"], "Rôle invalide").required("Rôle requis"),
+  role: yup.string().required("Rôle requis"),
   image: yup.mixed(),
 });
 
@@ -30,6 +27,12 @@ const AddUser = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const onSubmit = async (data) => {
+    // Vérification du rôle avant d'envoyer la requête
+    if (!["accountant"," financial manager", "auditeur", "manager controller"].includes(data.role)) {
+      Swal.fire("Erreur", "Rôle invalide. Veuillez choisir un rôle valide.", "error");
+      return; // Arrêter l'exécution si le rôle est invalide
+    }
+
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
       if (key !== "image") formData.append(key, data[key]);
@@ -58,13 +61,13 @@ const AddUser = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <input {...register("CIN")} placeholder="CIN" className="input" />
         {errors.CIN && <p className="error">{errors.CIN.message}</p>}
-        
+
         <input {...register("firstName")} placeholder="Prénom" className="input" />
         {errors.firstName && <p className="error">{errors.firstName.message}</p>}
-        
+
         <input {...register("lastName")} placeholder="Nom" className="input" />
         {errors.lastName && <p className="error">{errors.lastName.message}</p>}
-        
+
         <select {...register("gender")} className="input">
           <option value="">Choisir un genre</option>
           <option value="male">Homme</option>
@@ -75,8 +78,7 @@ const AddUser = () => {
         <input type="date" {...register("birthDate")} className="input" />
         {errors.birthDate && <p className="error">{errors.birthDate.message}</p>}
 
-        <input {...register("phone")} placeholder="Téléphone" className="input" />
-        {errors.phone && <p className="error">{errors.phone.message}</p>}
+        <input type="text" {...register("phone")} placeholder="Téléphone" className="input" />
 
         <input type="email" {...register("email")} placeholder="Email" className="input" />
         {errors.email && <p className="error">{errors.email.message}</p>}
@@ -89,10 +91,10 @@ const AddUser = () => {
 
         <select {...register("role")} className="input">
           <option value="">Choisir un rôle</option>
-          <option value="accountant">Accountant</option>
-          <option value="financial manager">Financial Manager</option>
-          <option value="auditeur">Auditeur</option>
-          <option value="manager controller">Manager Controller</option>
+          <option value="Accountant">Accountant</option>
+          <option value="Financial Manager">Financial Manager</option>
+          <option value="External auditeur">Auditeur</option>
+          <option value="Manager Controller">Manager Controller</option>
         </select>
         {errors.role && <p className="error">{errors.role.message}</p>}
 
