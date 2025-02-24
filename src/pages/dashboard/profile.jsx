@@ -16,7 +16,11 @@ import {
 } from "@heroicons/react/24/solid";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { getUser } from "@/api/users";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+import { Link } from "react-router-dom"; // Importez Link pour la redirection
+>>>>>>> 9a332506927a31db0ce3f6eb31b8d733a3ba21cb
 
 export function Profile() {
   const { getCurrentUser } = useContext(AuthContext);
@@ -47,12 +51,18 @@ export function Profile() {
         String.fromCharCode(...buffer)
       )}`;
       setImageSrc(base64String);
+<<<<<<< HEAD
     }
   }, [userData]);
 
   const handleEditProfile = () => {
     navigate("/dashboard/edit-profile");
   };
+=======
+      console.log(base64String);
+    }
+  }, [userData]);
+>>>>>>> 9a332506927a31db0ce3f6eb31b8d733a3ba21cb
 
   if (!userData) {
     return (
@@ -78,6 +88,7 @@ export function Profile() {
           <PencilIcon className="h-4 w-4" /> Edit Profile
         </Button>
       </div>
+<<<<<<< HEAD
 
       {/* Profile Info Section */}
       <div className="flex flex-col items-center mb-12">
@@ -120,6 +131,19 @@ export function Profile() {
           </CardHeader>
           <CardBody className="p-6">
             <div className="space-y-4">
+=======
+      <Card className="mx-3 -mt-16 mb-6 lg:mx-4 border border-blue-gray-100">
+        <CardBody className="p-4">
+          <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
+            <div className="flex items-center gap-6">
+              <Avatar
+                src={imageSrc}
+                alt="User Avatar"
+                size="xl"
+                variant="rounded"
+                className="rounded-lg shadow-lg shadow-blue-gray-500/40"
+              />
+>>>>>>> 9a332506927a31db0ce3f6eb31b8d733a3ba21cb
               <div>
                 <Typography variant="small" className="text-blue-gray-600 mb-1">
                   Gender
@@ -137,8 +161,34 @@ export function Profile() {
                 </Typography>
               </div>
             </div>
+<<<<<<< HEAD
           </CardBody>
         </Card>
+=======
+          </div>
+          <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
+            <ProfileInfoCard
+              title="Profile Information"
+              description="about me"
+              details={{
+                "First Name": userData.firstName,
+                "Last Name": userData.lastName,
+                Gender: userData.gender,
+                "Birth Date": userData.birthDate ? new Date(userData.birthDate).toISOString().slice(0, 10) : "N/A",
+                Phone: userData.phone || "N/A",
+                Email: userData.email,
+              }}
+              action={
+                <Tooltip content="Edit Profile">
+                  <Link to="/dashboard/edit-profile">
+                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                  </Link>
+                </Tooltip>
+              }
+              
+            />
+          </div>
+>>>>>>> 9a332506927a31db0ce3f6eb31b8d733a3ba21cb
 
         {/* Current Project */}
         <Card className="shadow-none">
@@ -149,6 +199,7 @@ export function Profile() {
             <Typography variant="h6" color="white" className="text-base">
               Current Project
             </Typography>
+<<<<<<< HEAD
           </CardHeader>
           <CardBody className="p-6">
             <Typography variant="h6" className="text-blue-gray-900 mb-2">
@@ -170,6 +221,43 @@ export function Profile() {
               <Typography variant="small" className="text-blue-gray-600">
                 Started: {userData.project?.startDate}
               </Typography>
+=======
+            <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
+              <Card color="transparent" shadow={false}>
+                <CardBody className="py-0 px-1">
+                  <Typography
+                    variant="h5"
+                    color="blue-gray"
+                    className="mt-1 mb-2"
+                  >
+                    {userData.project.name}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-normal text-blue-gray-500"
+                  >
+                    {userData.project.status}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-normal text-blue-gray-500"
+                  >
+                    {userData.project.description}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-normal text-blue-gray-500 mt-2"
+                  >
+                    Start Date: {new Date(userData.project.startDate).toISOString().slice(0, 10)}
+                  </Typography>
+                </CardBody>
+                <CardFooter className="mt-6 flex items-center justify-between py-0 px-1">
+                  <Button variant="outlined" size="sm">
+                    View Project
+                  </Button>
+                </CardFooter>
+              </Card>
+>>>>>>> 9a332506927a31db0ce3f6eb31b8d733a3ba21cb
             </div>
             <Button 
               variant="outlined"
