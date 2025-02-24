@@ -12,12 +12,19 @@ import { PencilIcon } from "@heroicons/react/24/solid";
 import { ProfileInfoCard } from "@/widgets/cards";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import { getUser } from "@/api/users";
-import { Link } from "react-router-dom"; // Importez Link pour la redirection
+import { EditProfile } from "./EditProfile.jsx";
 
 export function Profile() {
   const { getCurrentUser } = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
   const [imageSrc, setImageSrc] = useState("");
+  const [updateUser , setUpdateUser] = useState(false);
+
+  console.log(updateUser)
+
+  const fetchUpdate=()=> {
+    updateUser ? setUpdateUser(false) : setUpdateUser(true)
+  }
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -52,7 +59,16 @@ export function Profile() {
 
   return (
     <>
-      <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url('/img/background-image.png')] bg-cover bg-center">
+    <p onClick={fetchUpdate}>update</p>
+    {
+      updateUser && (
+        <EditProfile />
+      )
+    }
+    {
+      !updateUser && (
+        <>
+<div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url('/img/background-image.png')] bg-cover bg-center">
         <div className="absolute inset-0 h-full w-full bg-gray-900/75" />
       </div>
       <Card className="mx-3 -mt-16 mb-6 lg:mx-4 border border-blue-gray-100">
@@ -92,10 +108,10 @@ export function Profile() {
                 Email: userData.email,
               }}
               action={
-                <Tooltip content="Edit Profile">
-                  <Link to="/dashboard/edit-profile">
-                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
-                  </Link>
+                <Tooltip content="Edit Profile" >
+              
+                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" onClick={fetchUpdate}/>
+                  
                 </Tooltip>
               }
               
@@ -145,6 +161,10 @@ export function Profile() {
           </div>
         </CardBody>
       </Card>
+      </>
+      )
+    }
+      
     </>
   );
 }

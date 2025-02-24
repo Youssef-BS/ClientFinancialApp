@@ -41,12 +41,7 @@ export const routes = [
         path: "/notifications",
         element: <Notifications />,
       },
-      {
-
-        
-        path: "/edit-profile",
-        element: <EditProfile />,  // Assurez-vous que cela est bien ici
-      },
+     
     ],
   },
   {
@@ -59,6 +54,7 @@ export const routes = [
         path: "/sign-in",
         element: <LoginSignupForm />,
       },
+
     ],
   },
 ];
