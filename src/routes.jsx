@@ -6,7 +6,7 @@ import {
   ServerStackIcon,
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { Home, Profile, Tables, Notifications, EditProfile } from "@/pages/dashboard";
 // import { SignIn, SignUp } from "@/pages/auth";
 import LoginSignupForm from "./pages/auth/LoginSignupForm";
 
@@ -29,6 +29,12 @@ export const routes = [
         name: "profile",
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/edit-profile",
+        element: <EditProfile />,
+        name: "edit profile",
+        hidden: true,
       },
       {
         icon: <TableCellsIcon {...icon} />,
