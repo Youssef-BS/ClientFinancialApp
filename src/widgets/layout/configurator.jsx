@@ -50,13 +50,6 @@ export function Configurator() {
     // Set initial sidenav color to green and sidenav type to dark
     setSidenavColor(dispatch, "green");
     setSidenavType(dispatch, "dark");
-
-    // Fetch stars count from GitHub API
-    fetch(
-      "https://api.github.com/repos/creativetimofficial/material-tailwind-dashboard-react"
-    )
-      .then((response) => response.json())
-      .then((data) => setStars(formatNumber(data.stargazers_count, 1)));
   }, []);
 
   return (
@@ -93,9 +86,7 @@ export function Configurator() {
                 key={color}
                 className={`h-6 w-6 cursor-pointer rounded-full border bg-gradient-to-br transition-transform hover:scale-105 ${
                   sidenavColors[color]
-                } ${
-                  sidenavColor === color ? "border-black" : "border-transparent"
-                }`}
+                } ${sidenavColor === color ? "border-black" : "border-transparent"}`}
                 onClick={() => setSidenavColor(dispatch, color)}
               />
             ))}

@@ -4,10 +4,13 @@ import {
   UserCircleIcon,
   TableCellsIcon,
   ServerStackIcon,
+  DocumentTextIcon, // Import the document icon
 } from "@heroicons/react/24/solid";
 
 import IsLoading from "./configs/isLoading";
+import Files from "./pages/dashboard/files/Files";
 
+// Lazy load components
 const Home = lazy(() => import("@/pages/dashboard/Home"));
 const Profile = lazy(() => import("@/pages/dashboard/profile/profile"));
 const Tables = lazy(() => import("@/pages/dashboard/users/Tables"));
@@ -49,6 +52,16 @@ export const routes = [
         element: (
           <Suspense fallback={<IsLoading />}>
             <Tables />
+          </Suspense>
+        ),
+      },
+      {
+        icon: <DocumentTextIcon {...icon} />, // Add the icon for the Files page
+        name: "Files",
+        path: "/files",
+        element: (
+          <Suspense fallback={<IsLoading />}>
+            <Files />
           </Suspense>
         ),
       },
