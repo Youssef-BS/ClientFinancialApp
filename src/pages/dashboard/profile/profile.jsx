@@ -24,7 +24,13 @@ export function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage] = useState(5); 
-
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  
+  const handleAddFile = (projectId) => {
+    setSelectedProjectId(projectId);  
+    history("/dashboard/files/add", { state: { projectId } });  
+  };
+  
   const toggleEdit = () => setUpdateUser(!updateUser);
 
   useEffect(() => {
@@ -196,6 +202,15 @@ export function Profile() {
                                 >
                                   View
                                 </Button>
+                                <Button
+  variant="gradient"
+  size="sm"
+  color="blue"
+  className="shadow-md hover:shadow-blue-500/40 ml-2"
+  onClick={() => handleAddFile(project._id)}
+>
+  Add File
+</Button>
                               </td>
                             </tr>
                           ))}
